@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valetine</title>
+    <link rel="stylesheet"href="style.css">
+</head>
+<body>
+    <body onclick="playMusic()"> 
+
+        <!-- Background Music -->
+         <audio id="bgMusic" loop>
+            <source src="music.mp3" type="audio/mpeg">
+         </audio>
+        
+   <!--Main card-->
+     <div class="card">
+        <h1 id="title">Hey🥹</h1>
+        <p id="question">Will you be my Valentine?</p>
+        <div class="buttons" id="buttons">
+            <button class="yes"onclick="sayYes()">Yes❤️</button> 
+            <button class="no"onclick="sayNo()">No💔</button>
+        </div>
+        <p id="response"></p>
+        
+         
+
+        </div>
+        <script src="script.js"></script>
+        
+</body>
+</html>
