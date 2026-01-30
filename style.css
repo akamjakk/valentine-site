@@ -15,12 +15,16 @@ body{
 }
 /*Card*/
 .card {
-    background:rgba(255,77,109,0.18);
+    background:rgba(255,77,109,0.2);
     padding:30px;
     border-radius:20px;
     text-align:center;
     width:340px;
-    box-shadow:0 0 30px rgba(189, 45, 72, 0.5);
+    box-shadow:0 0 30px rgba(255, 77, 109, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
 }
 h1 {
@@ -31,6 +35,7 @@ p{
     font-size: 18px;
 }
 .input-style {
+
     width: 80%;
     padding: 12px;
     margin:10px 0;
