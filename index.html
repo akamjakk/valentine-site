@@ -25,12 +25,12 @@
                     <input type="text" id="userPhone" placeholder="eg.256**********" class="input-style">
                 </div>
 
-                <button onclick="startApp()" class="yes" >Continue</button>
+                <button id="mainActionBtn"onclick="startApp()" class="yes" >Continue</button>
                 <div id="link-container" style="display: none; margin-top: 20px;">
                     <p style="font-size: 13px; color: #fff;">Share this link with your Valentine to be:</p>
                     <div class="copy-box">
                         <span id="linkText"></span>
-                        <button onclick="copylink()" id="copyBtn">Copy</button>
+                        <button type="button" onclick="copyToClipboard()" id="copyBtn">Copy</button>
                     </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ window.onload =()=> {
     document.getElementById('phone-input-area').style.display="block";
     document.getElementById('auth-title').innerText= "Create Your Link";
  } else {
-    document.getElementById('auth-desc').innerText = '${senderName} sent you a message...';
+    document.getElementById('auth-desc').innerText = `${senderName} sent you a message...`;
  }
 };
 
@@ -50,17 +50,19 @@ function startApp() {
     if (!phone) return alert("Enter your phone number!");
     
     // Create link: Handles local files, Live Server, and real domains
-    let base = window.location.href.split('?')[0];
-    const link = `${base}?from=${encodeURIComponent(name)}&phone=${phone}`;
+    const baseUrl = window.location.href.split('?')[0];
+    const finallink = `${baseUrl}?from=${encodeURIComponent(name)}&phone=${phone}`;
     
     // Show the copy container and update text
+    
+    document.getElementById('linkText').innerText = finallink;
     document.getElementById('link-container').style.display = "block";
-    document.getElementById('linkText').innerText = link;
     
     // Update button UI
-    const mainBtn = document.querySelector('#auth-screen .yes');
-    mainBtn.innerText = "Link Generated! ✨";
-    mainBtn.style.backgroundColor = "#4caf50";
+    const btn = document.getElementById('mainActionBtn');
+    btn.innerText = "Link Generated! ✨";
+    btn.style.backgroundColor = "#4caf50";
+
   } else {
     // Logic for USER B (The Receiver)
     document.getElementById('auth-screen').style.display = "none";
@@ -69,43 +71,37 @@ function startApp() {
   }
 }
 
-// --- COPY LOGIC ---
-function copyLink() {
-  const linkText = document.getElementById('linkText').innerText;
-  const btn = document.getElementById('copyBtn');
 
-  if (!linkText) return;
+function copyToClipboard() {
+  const text = document.getElementById('linkText').innerText;
+  const btn =document.getElementById('copyBtn')
 
-  // Create a hidden textarea to hold the text
-  const textArea = document.createElement("textarea");
-  textArea.value = linkText;
-  
-  // Ensure it's not visible but part of the DOM
-  textArea.style.position = "fixed";
-  textArea.style.left = "-9999px";
-  textArea.style.top = "0";
-  document.body.appendChild(textArea);
-  
-  textArea.focus();
-  textArea.select();
-  textArea.setSelectionRange(0, 99999); // Mobile support
+  if(!text) return;
+
+  const el = document.createElement('textarea');
+  el.value= text;
+  document.body.appendChild(el);
+  el.setAttribute('readonly','');
+  el.style.postion='adsolute';
+  el.style.left='-9999px';
+  document.body.appendChild(el);
+  el.select();
+  el.setSelectionRange(0,99999);
 
   try {
-    const successful = document.execCommand('copy');
-    if (successful) {
-      btn.innerText = "Copied!";
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.innerText = "Copy";
-        btn.classList.remove('copied');
-      }, 2000);
-    }
-  } catch (err) {
-    console.error('Fallback copy failed', err);
-    alert("Please manually copy the link text.");
-  }
+    document.execCommand('copy');
+    btn.innerText= "copied!";
+    btn.style.backgroundColor="#4caf50";
+    setTimeout(() => {
+      btn.innerText ="Copy";
+      btn.style.backgroundColor= "#ff4d6d";
 
-  document.body.removeChild(textArea);
+    },2000);
+  } catch (err) {
+    alert("Copy failed, please select and copy the link manually.");
+
+  }
+  document.body.removeChild(el);
 }
 	
 
@@ -115,12 +111,12 @@ function sayYes() {
     const visitor =document.getElementById('userName').value;
   const msg = getRandom(yesMessages);
     
-  if(senderPhone) {
-    const text ='Its official! ${senderName} & ${visitor} are Valentine dates!❤️';
-    window.open('https://wa.me/${senderPhone}?text=${encodeURIComponent(text)}','_blank');
+    const text =`Its official! ${senderName} & ${visitor} are Valentine dates!❤️`;
+    const waUrl=`https://wa.me/${senderPhone}?text=${encodeURIComponent(text)}`;
+    window.open(waUrl,'_blank');
 
-  }
-  window.location.href='result.html?status=yes&msg=${encodeURIComponent(msg)}';
+  
+  window.location.href=`result.html?status=yes&msg=${encodeURIComponent(msg)}`;
 }
   
 
@@ -129,11 +125,12 @@ function sayNo() {
     const visitor= document.getElementById('userName').value;
   const msg = getRandom(noMessages);
 
-  if (senderPhone) {
-const text ='Hey ${senderName}, ${visitor} viewed your request but isnt ready yet💔';
- window.open('https://wa.me/${senderPhone}?text=${encodeURIComponent(text)}','_blank');
+
+const text =`Hey ${senderName}, ${visitor} viewed your request but isnt ready yet💔`;
+const waUrl =`https://wa.me/${senderPhone}?text=${encodeURIComponent(text)}`;
+window.open(waUrl,'_blank');
 
 
-  }
+  
   window.location.href = `result.html?status=no&msg=${encodeURIComponent(msg)}`;
 }

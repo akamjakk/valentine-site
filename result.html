@@ -26,7 +26,9 @@
   </div>
 
   <script>
-    
+    window.onload =() =>{
+
+   
     const params = new URLSearchParams(window.location.search);
     const status = params.get('status');
     const message = params.get('msg');
@@ -34,6 +36,14 @@
     const titleEl = document.getElementById('title');
     const responseEl = document.getElementById('response');
 
+   if (message) {
+      responseEl.innerText = decodeURIComponent(message);
+      
+        responseEl.classList.add('fade-in');
+      } 
+    
+    
+    
     if (status === 'yes') {
       titleEl.innerText = "It's a date! 💖";
       
@@ -42,14 +52,10 @@
       titleEl.style.color="#bbb";
       
     }
-
+  };
     
-    if (message) {
-      respEl.innerText = decodeURIComponent(message);
-       setTimeout(() => {
-        respElement.classList.add('fade-in');
-      }, 100);
-    }
+    
+    
 
   </script>
 </body>
