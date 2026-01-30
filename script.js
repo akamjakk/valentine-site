@@ -39,6 +39,7 @@ function getRandom(list) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
+// --- START APP LOGIC ---
 function startApp() {
   const name = document.getElementById('userName').value.trim();
   if (!name) return alert("Please enter your name!");
@@ -48,16 +49,15 @@ function startApp() {
     const phone = document.getElementById('userPhone').value.replace(/\D/g,'');
     if (!phone) return alert("Enter your phone number!");
     
-    // Fallback for local testing if origin is null
-    const base = window.location.origin !== "null" ? window.location.origin : "";
-    const path = window.location.pathname;
-    const link = `${base}${path}?from=${encodeURIComponent(name)}&phone=${phone}`;
+    // Create link: Handles local files, Live Server, and real domains
+    let base = window.location.href.split('?')[0];
+    const link = `${base}?from=${encodeURIComponent(name)}&phone=${phone}`;
     
-    // Show the copy container and set the text
+    // Show the copy container and update text
     document.getElementById('link-container').style.display = "block";
     document.getElementById('linkText').innerText = link;
     
-    // Change the button text to show success
+    // Update button UI
     const mainBtn = document.querySelector('#auth-screen .yes');
     mainBtn.innerText = "Link Generated! ✨";
     mainBtn.style.backgroundColor = "#4caf50";
@@ -69,18 +69,47 @@ function startApp() {
   }
 }
 
-function copyLink(){
-  const linkText =document.getElementById('linkText').innerText;
+// --- COPY LOGIC ---
+function copyLink() {
+  const linkText = document.getElementById('linkText').innerText;
   const btn = document.getElementById('copyBtn');
-  navigator.clipboard.writeText(linkText).then(() => {
-    btn.innerText = "Copied";
-    btn.classList.add('copied');
-    setTimeout(()=> {
-      btn.innerText="Copy";
-      btn.classList.remove('copied');
-    }, 2000);
-  });
+
+  if (!linkText) return;
+
+  // Create a hidden textarea to hold the text
+  const textArea = document.createElement("textarea");
+  textArea.value = linkText;
+  
+  // Ensure it's not visible but part of the DOM
+  textArea.style.position = "fixed";
+  textArea.style.left = "-9999px";
+  textArea.style.top = "0";
+  document.body.appendChild(textArea);
+  
+  textArea.focus();
+  textArea.select();
+  textArea.setSelectionRange(0, 99999); // Mobile support
+
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      btn.innerText = "Copied!";
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerText = "Copy";
+        btn.classList.remove('copied');
+      }, 2000);
+    }
+  } catch (err) {
+    console.error('Fallback copy failed', err);
+    alert("Please manually copy the link text.");
+  }
+
+  document.body.removeChild(textArea);
 }
+	
+
+
 
 function sayYes() {
     const visitor =document.getElementById('userName').value;

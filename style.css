@@ -91,6 +91,7 @@ yes {
     text-overflow: ellipsis;
     max-width: 180px;
     color: #ffb3c1;
+    user-select: all;
 }
 #copyBtn {
     background: #ff4d6d;
