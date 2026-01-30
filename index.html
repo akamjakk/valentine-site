@@ -3,34 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Valetine</title>
+    <title>Just one Question</title>
     <link rel="stylesheet"href="style.css">
-    <a href="results.html">See result</a>S
 </head>
 <body>
     <body onclick="playMusic()"> 
 
-        <!-- Background Music -->
+        
          <audio id="bgMusic" loop>
             <source src="music.mp3" type="audio/mpeg">
          </audio>
+
+        <div class="card">
+            <div id="auth-screen">
+                <h1 id="auth-title">Hey</h1>
+                <p id="auth-desc">Enter your name to continue</p>
+                <input type="text" id="userName" placeholder="Your Name" class="input-style">
+
+                <div id="phone-input-area" style="display:none;">
+                    <p style="font-size:12px; margin-top:10px,">Enter your WhatsApp(with country code)</p>
+                    <input type="text" id="userPhone" placeholder="eg.256**********" class="input-style">
+                </div>
+
+                <button onclick="startApp()" class="yes" >Continue</button>
+                <div id="link-container" style="display: none; margin-top: 20px;">
+                    <p style="font-size: 13px; color: #fff;">Share this link with your Valentine to be:</p>
+                    <div class="copy-box">
+                        <span id="linkText"></span>
+                        <button onclick="copylink()" id="copyBtn">Copy</button>
+                    </div>
+                    </div>
+                </div>
+               
+            
+
+
+ 
+
         
    <!--Main card-->
-     <div class="card">
+   <div id="main-screen" style="display:none;">
+      
         <h1 id="title">Hey🥹</h1>
         <p id="question">Will you be my Valentine?</p>
         <div class="buttons" id="buttons">
             <button class="yes"onclick="sayYes()">Yes❤️</button> 
             <button class="no"onclick="sayNo()">No💔</button>
+            </div>
         </div>
-        <p id="response"></p>
+         </div>
         
          
 
-        </div>
+       
         <script src="script.js"></script>
         
 </body>
-
 </html>

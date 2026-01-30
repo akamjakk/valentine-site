@@ -25,10 +25,20 @@ body{
 }
 h1 {
     color:#ff4d6d;
-    transition: color0.6s ease;
+    
 }
 p{
     font-size: 18px;
+}
+.input-style {
+    width: 80%;
+    padding: 12px;
+    margin:10px 0;
+    border-radius: 10px;
+    border: 1px solid #ff4d6d;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    text-align: center;
 }
 
 
@@ -41,9 +51,21 @@ button {
     border:none;
     cursor:pointer;
     margin:8px;
-    color:white;
+    color:#ff4d6ea2;
+    background-color:rgba(0, 0, 0, 0.733);
     font-size: 16px;
 }
+button:active{
+    transform: scale(0.95);
+}
+
+button:hover { 
+color:rgba(0, 0, 0, 0.733);
+background-color: #ff4d6ea2;
+}
+
+
+
 no {
     background-color:#444;
     color: white;
@@ -51,6 +73,36 @@ no {
 yes {
     background-color: #ff4d6d;
     color: white;
+}
+.copy-box{
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid #ff4d6d;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    margin-top: 10px;
+}
+#linkText {
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    color: #ffb3c1;
+}
+#copyBtn {
+    background: #ff4d6d;
+    padding: 5px 10px;
+    font-size: 11px;
+    margin:0;
+    border-radius: 5px;
+
+}
+
+.copied {
+    background-color: #4caf50 !important;
 }
 
 
@@ -63,18 +115,25 @@ yes {
     white-space: pre-line;
      opacity: 0;
     transform: translateY(20px);
+    transition: all 0.8s ease; /* Moves the transition here for better control */
+}
+#response.fade-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 /*transitions*/
 .fade-out {
     opacity: 0;
     transform: translateY(-20px);
     transition: all 0.6s ease;
+    pointer-events: none;
 }
 .fade-in {
     opacity: 0;
     transform: translateY(0);
     transition: all 0.8 ease;
 }
+
 
 
    

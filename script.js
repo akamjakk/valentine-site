@@ -1,65 +1,110 @@
-let musicPlayed = false;
-function playMusic(){
-    if (!musicPlayed){ 
-        document.getElementById("bgMusic").play();
-        musicPlayed = true;
-    }
-}
-/*Message lists*/
-
-const yesMessages=[
-    "You just made my heart race ❤️‍🔥\n\n I'm so glad I asked.\n Let's make this Valentine unforgettable 💕",
-    "This smile on my face is because of you😊\n\n Thank you for saying yes💖 ",
-    "I've been hoping for this moment💫\n\nYou just made today special❤️",
-    "My heart feels lighter knowing you said yes💕\n\nHappy Valentine💖",
-];
-
-const noMessages=[ 
-    "thanks you for being honest💔\n\nsome feelings are still beautiful\neven when they're not returned💫",
-    "It's okay.\n\nI'm still gald I had the courage to ask❤️",
-    "I respect your answer.\nThank you taking your time💕",
-    "Not every story ends the same way,\n but this moment still mattered🌙"
+let musicStarted = false;
+const urlParams =new URLSearchParams(window.location.search);
+const senderName = urlParams.get('from');
+const senderPhone = urlParams.get('phone');
 
 
+window.onload =()=> {
+ if(!senderName) {
+    document.getElementById('phone-input-area').style.display="block";
+    document.getElementById('auth-title').innerText= "Create Your Link";
+ } else {
+    document.getElementById('auth-desc').innerText = '${senderName} sent you a message...';
+ }
+};
 
-];
-function randomMessage(list) {
-    return list[Math.floor(Math.random()* list.length)];
+function playMusic() {
+  const music = document.getElementById("bgMusic");
+  if (!musicStarted && music) {
+    music.play().catch(() => {});
+    musicStarted = true;
+  }
 }
 
+const yesMessages = [
+  "You just made my heart race ❤️‍🔥\n\nI’m really glad I asked.\nLet’s make this Valentine unforgettable 💕",
+  "This smile on my face is because of you 😊\n\nThank you for saying yes 💖",
+  "I’ve been hoping for this moment 💫\n\nYou just made today special ❤️",
+  "My heart feels lighter knowing you said yes 💕\n\nHappy Valentine 💖"
+];
 
-/* unified response handler */
-function showResponse(titleText, messageText) {
-    const title    =document.getElementById("title");
-    const question =document.getElementById("question");
-    const buttons  =document.getElementById("buttons");
-   const response  = document.getElementById("response");
-   // reset response animation 
-   response.classList.remove("fade-in");
-   response.style.opacity="0";
-   response.style.transform="translateY(20px)";
+const noMessages = [
+  "Thank you for being honest 💔\n\nSome feelings are still beautiful,\neven when they’re not returned 💫",
+  "It’s okay.\n\nI’m still glad I had the courage to ask ❤️",
+  "I respect your answer.\nThank you for listening 💕",
+  "Not every story ends the same way,\nbut this moment still mattered 🌙"
+];
 
-   //fade out question 
-    question.classList.add("fade-out");
-    buttons.classList.add("fade-out");
+function getRandom(list) {
+  return list[Math.floor(Math.random() * list.length)];
+}
 
-  setTimeout(()=>{
-    title.innerText = titleText;
-    question.style.display ="none";
-    buttons.style.display ="none";
+function startApp() {
+  const name = document.getElementById('userName').value.trim();
+  if (!name) return alert("Please enter your name!");
 
-     response.innerText= messageText;
+  if (!senderName) {
+    // Logic for USER A (The Creator)
+    const phone = document.getElementById('userPhone').value.replace(/\D/g,'');
+    if (!phone) return alert("Enter your phone number!");
+    
+    // Fallback for local testing if origin is null
+    const base = window.location.origin !== "null" ? window.location.origin : "";
+    const path = window.location.pathname;
+    const link = `${base}${path}?from=${encodeURIComponent(name)}&phone=${phone}`;
+    
+    // Show the copy container and set the text
+    document.getElementById('link-container').style.display = "block";
+    document.getElementById('linkText').innerText = link;
+    
+    // Change the button text to show success
+    const mainBtn = document.querySelector('#auth-screen .yes');
+    mainBtn.innerText = "Link Generated! ✨";
+    mainBtn.style.backgroundColor = "#4caf50";
+  } else {
+    // Logic for USER B (The Receiver)
+    document.getElementById('auth-screen').style.display = "none";
+    document.getElementById('main-screen').style.display = "block";
+    document.getElementById('title').innerText = `Hey ${name} 💕`;
+  }
+}
 
-        //force animation 
-     response.offsetHeight;
-     response.classList.add("fade-in"); }
-    , 600);}
-    /*button actions*/
-    function sayYes() {
-        showResponse(" You just made my heart race ❤️‍🔥\n\n I'm so glad I asked.\n Let's make this Valentine unforgettable 💕",randomMessage(yesMessages));
-    }
-    function sayNo() {
-        showResponse("Thanks you for being honest💔\n\nsome feelings are still beautiful\neven when they're not returned💫",randomMessage(noMessages));
-    }
+function copyLink(){
+  const linkText =document.getElementById('linkText').innerText;
+  const btn = document.getElementById('copyBtn');
+  navigator.clipboard.writeText(linkText).then(() => {
+    btn.innerText = "Copied";
+    btn.classList.add('copied');
+    setTimeout(()=> {
+      btn.innerText="Copy";
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
 
-     
+function sayYes() {
+    const visitor =document.getElementById('userName').value;
+  const msg = getRandom(yesMessages);
+    
+  if(senderPhone) {
+    const text ='Its official! ${senderName} & ${visitor} are Valentine dates!❤️';
+    window.open('https://wa.me/${senderPhone}?text=${encodeURIComponent(text)}','_blank');
+
+  }
+  window.location.href='result.html?status=yes&msg=${encodeURIComponent(msg)}';
+}
+  
+
+
+function sayNo() {
+    const visitor= document.getElementById('userName').value;
+  const msg = getRandom(noMessages);
+
+  if (senderPhone) {
+const text ='Hey ${senderName}, ${visitor} viewed your request but isnt ready yet💔';
+ window.open('https://wa.me/${senderPhone}?text=${encodeURIComponent(text)}','_blank');
+
+
+  }
+  window.location.href = `result.html?status=no&msg=${encodeURIComponent(msg)}`;
+}
