@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Response 💖</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <h1 id="title">Hey 💕</h1>
+
+    <p id="response"></p>
+
+    <br>
+    <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
+    
+      <a href="index.html" style="color: #ff4d6f; text-decoration: none; font-weight: bold; font-size: 15px;">
+       ✨ Click here to make your own link✨ 
+      </a>
+    </div>
+  </div>
+
+  <script>
+    
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get('status');
+    const message = params.get('msg');
+
+    const titleEl = document.getElementById('title');
+    const responseEl = document.getElementById('response');
+
+    if (status === 'yes') {
+      titleEl.innerText = "It's a date! 💖";
+      
+    } else {
+      titleEl.innerText = "It’s okay 💔";
+      titleEl.style.color="#bbb";
+      
+    }
+
+    
+    if (message) {
+      respEl.innerText = decodeURIComponent(message);
+       setTimeout(() => {
+        respElement.classList.add('fade-in');
+      }, 100);
+    }
+
+  </script>
+</body>
+</html>
